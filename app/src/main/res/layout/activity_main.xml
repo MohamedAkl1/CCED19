@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="akl.com.cced19.MainActivity"
+    android:weightSum="1">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true"
+                    android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcoming_message"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:id="@+id/welcoming_message"
+            android:layout_centerVertical="true"
+            android:layout_alignEnd="@+id/cced19"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cced19"
+            android:id="@+id/cced19"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/welcoming_message"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="49dp"
+            android:layout_below="@+id/cced19"
+            android:layout_alignEnd="@+id/cced19"
+            android:id="@+id/student_signin"
+            android:text="@string/student_signin"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin"
+            android:id="@+id/admin"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
