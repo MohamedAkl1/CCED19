@@ -42,13 +42,20 @@
         android:id="@+id/student_password"
         android:inputType="textPassword"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/student_code"
+        android:id="@+id/student_code"
+        android:layout_below="@id/student_password"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:id="@+id/student_register"
-        android:layout_below="@id/student_password"
+        android:layout_below="@id/student_code"
         android:text="@string/student_register"/>
 
 

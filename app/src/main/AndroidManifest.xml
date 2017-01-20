@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".AdminActivity">
         </activity>
+        <activity android:name=".MainApp">
+        </activity>
     </application>
 
 </manifest>

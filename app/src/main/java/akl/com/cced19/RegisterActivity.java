@@ -1,12 +1,14 @@
 package akl.com.cced19;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView mEmailTextView;
     private TextView mIdTextView;
     private TextView mPasswordTextView;
+    private EditText mRegisterCode;
     private Button mRegisterButton;
 
     private ProgressDialog mProgressDialog;
@@ -44,15 +47,16 @@ public class RegisterActivity extends AppCompatActivity {
         mIdTextView = (TextView) findViewById(R.id.student_id);
         mPasswordTextView = (TextView) findViewById(R.id.student_password);
         mRegisterButton = (Button) findViewById(R.id.student_register);
+        mRegisterCode = (EditText) findViewById(R.id.student_code);
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerUser(mNameTextView.getText().toString().trim(),mEmailTextView.getText().toString().trim(),mPasswordTextView.getText().toString().trim(),Integer.parseInt(mIdTextView.getText().toString().trim()));
+                registerUser(mNameTextView.getText().toString().trim(),mEmailTextView.getText().toString().trim(),mPasswordTextView.getText().toString().trim(),Integer.parseInt(mIdTextView.getText().toString().trim()),mRegisterCode.getText().toString().trim());
             }
         });
     }
 
-    private void registerUser(String name,String email,String password,int id){
+    private void registerUser(String name,String email,String password,int id,String code){
         if(TextUtils.isEmpty(email)|| !isEmailValid(email)){
             Toast.makeText(getApplicationContext(),"Invalid Email",Toast.LENGTH_SHORT).show();
             return;
@@ -72,6 +76,10 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Invalid Name",Toast.LENGTH_SHORT).show();
             return;
         }
+        if(TextUtils.isEmpty(code) || !code.equals("wubba lubba dub dub")){
+            Toast.makeText(getApplicationContext(),"Invalid Code",Toast.LENGTH_SHORT).show();
+            return;
+        }
         mProgressDialog.setMessage("Registering");
         mProgressDialog.show();
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -80,6 +88,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     mProgressDialog.dismiss();
                     Toast.makeText(getApplicationContext(),"Successfully Registered!",Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),SigninActivity.class));
                 }
                 else{
                     mProgressDialog.dismiss();

@@ -4,6 +4,7 @@
     <string name="cced19">CCED19</string>
     <string name="id">ID</string>
     <string name="student_name">Name</string>
+    <string name="student_code">Code</string>
     <string name="student_signin">Sign in</string>
     <string name="student_register">Register</string>
     <string name="admin">Admin</string>
