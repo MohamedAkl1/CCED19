@@ -8,6 +8,7 @@
     <string name="student_signin">Sign in</string>
     <string name="student_register">Register</string>
     <string name="admin">Admin</string>
+    <string name="logout">Logout</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
 </resources>

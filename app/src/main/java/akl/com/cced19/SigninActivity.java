@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,7 +29,9 @@ public class SigninActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+        mFirebaseAuth = FirebaseAuth.getInstance();
         mEmailTextView = (TextView) findViewById(R.id.signin_email);
+        mProgressDialog = new ProgressDialog(this);
         mPasswordTextview = (TextView) findViewById(R.id.signin_password);
         mSigninButton = (Button) findViewById(R.id.signin_button);
         mSigninButton.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +44,14 @@ public class SigninActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         mProgressDialog.dismiss();
                         if(task.isSuccessful()){
-                            startActivity(new Intent(getApplicationContext(),MainApp.class));
+                            Intent intent = new Intent(getApplicationContext(),MainApp.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else{
+                            mProgressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Error Occured! please try again",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

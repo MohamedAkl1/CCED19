@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,12 +37,15 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    DatabaseReference mDatabaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NumberFormatException {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
         mProgressDialog = new ProgressDialog(this);
         mNameTextView = (TextView) findViewById(R.id.student_name);
@@ -56,7 +62,9 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void registerUser(String name,String email,String password,int id,String code){
+    private void registerUser(final String name,final String email,final String password,final int id,final String code){
+
+        //checking all the user input
         if(TextUtils.isEmpty(email)|| !isEmailValid(email)){
             Toast.makeText(getApplicationContext(),"Invalid Email",Toast.LENGTH_SHORT).show();
             return;
@@ -80,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Invalid Code",Toast.LENGTH_SHORT).show();
             return;
         }
+
         mProgressDialog.setMessage("Registering");
         mProgressDialog.show();
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -87,9 +96,15 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     mProgressDialog.dismiss();
+
+                    //Saving user Data on Firebase
+                    Student mStudent = new Student(id,name,email);
+                    FirebaseUser mUser = mAuth.getCurrentUser();
+                    mDatabaseReference.child(mUser.getUid()).setValue(mStudent);
+
                     Toast.makeText(getApplicationContext(),"Successfully Registered!",Toast.LENGTH_SHORT).show();
-                    finish();
                     startActivity(new Intent(getApplicationContext(),SigninActivity.class));
+                    finish();
                 }
                 else{
                     mProgressDialog.dismiss();
@@ -97,7 +112,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-        Student mStudent = new Student(id,name,email);
     }
 
     public static boolean isEmailValid(String email) {
