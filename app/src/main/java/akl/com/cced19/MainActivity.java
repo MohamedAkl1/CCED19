@@ -8,21 +8,42 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mStudentButton;
+    private Button mStudentSignin;
+    private Button mStudentRegister;
+    private Button mAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mStudentButton = (Button) findViewById(R.id.student_signin);
-        mStudentButton.setOnClickListener(new View.OnClickListener() {
+        mStudentSignin = (Button) findViewById(R.id.student_signin);
+        mStudentSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),SigninRegisterActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(),SigninActivity.class));
             }
         });
+
+        mStudentRegister = (Button) findViewById(R.id.student_register);
+        mStudentRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+            }
+        });
+
+        mAdmin = (Button) findViewById(R.id.admin);
+        mAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),AdminActivity.class));
+            }
+        });
+
+
+
+
     }
 
 

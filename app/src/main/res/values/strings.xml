@@ -2,21 +2,11 @@
     <string name="app_name">CCED19</string>
     <string name="welcoming_message">Welcome to</string>
     <string name="cced19">CCED19</string>
-    <string name="student_signin">Sign in / Register</string>
+    <string name="id">ID</string>
+    <string name="student_name">Name</string>
+    <string name="student_signin">Sign in</string>
+    <string name="student_register">Register</string>
     <string name="admin">Admin</string>
-    <string name="title_activity_signin_register">Sign in</string>
-
-    <!-- Strings related to login -->
-    <string name="prompt_id">ID</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="register">Register</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
 </resources>
