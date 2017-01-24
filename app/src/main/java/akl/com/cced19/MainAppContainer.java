@@ -14,7 +14,7 @@ public class MainAppContainer extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle onSavedInstanceState){
         super.onCreate(onSavedInstanceState);
-        setContentView(R.layout.main_app_container);
+        setContentView(R.layout.container);
 
         FragmentManager fm = getFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
