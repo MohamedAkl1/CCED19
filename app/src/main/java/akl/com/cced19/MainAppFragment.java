@@ -24,13 +24,13 @@ public class MainAppFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_main_app,container,false);
+        View v = inflater.inflate(R.layout.fragment_main_app,container,false);
         logoutButton = (Button) v.findViewById(R.id.logout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mFirebaseAuth.signOut();
-                startActivity(new Intent(getActivity(),SigninActivity.class));
+                startActivity(new Intent(getActivity(),SigninFragment.class));
             }
         });
         return v;

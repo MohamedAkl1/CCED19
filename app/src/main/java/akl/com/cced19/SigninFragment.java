@@ -1,11 +1,13 @@
 package akl.com.cced19;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +17,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SigninActivity extends AppCompatActivity {
+import java.util.concurrent.Executor;
+
+public class SigninFragment extends Fragment {
 
     private TextView mEmailTextView;
     private TextView mPasswordTextview;
@@ -26,36 +30,42 @@ public class SigninActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_signin,container,false);
+
+        final Transaction transaction = new Transaction();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mEmailTextView = (TextView) findViewById(R.id.signin_email);
-        mProgressDialog = new ProgressDialog(this);
-        mPasswordTextview = (TextView) findViewById(R.id.signin_password);
-        mSigninButton = (Button) findViewById(R.id.signin_button);
+        mEmailTextView = (TextView) v.findViewById(R.id.signin_email);
+        mProgressDialog = new ProgressDialog(getActivity());
+        mPasswordTextview = (TextView) v.findViewById(R.id.signin_password);
+        mSigninButton = (Button) v.findViewById(R.id.signin_button);
         mSigninButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mProgressDialog.setMessage("Signing in");
                 mProgressDialog.show();
-                mFirebaseAuth.signInWithEmailAndPassword(mEmailTextView.getText().toString().trim(),mPasswordTextview.getText().toString().trim()).addOnCompleteListener(SigninActivity.this, new OnCompleteListener<AuthResult>() {
+                mFirebaseAuth.signInWithEmailAndPassword(mEmailTextView.getText().toString().trim(),mPasswordTextview.getText().toString().trim()).addOnCompleteListener((Executor) SigninFragment.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         mProgressDialog.dismiss();
                         if(task.isSuccessful()){
-                            Intent intent = new Intent(getApplicationContext(),MainAppContainer.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
+                            transaction.addStack();
+                            transaction.replace(R.id.fragment_container,new MainAppFragment());
                         }
                         else{
                             mProgressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Error Occured! please try again",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"Error Occured! please try again",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
+        return v;
     }
 }

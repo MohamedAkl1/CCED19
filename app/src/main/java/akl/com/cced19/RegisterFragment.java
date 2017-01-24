@@ -1,12 +1,14 @@
 package akl.com.cced19;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,10 +22,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.concurrent.Executor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterFragment extends Fragment {
 
     private TextView mNameTextView;
     private TextView mEmailTextView;
@@ -37,61 +40,65 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    private Transaction mTransaction;
+
     DatabaseReference mDatabaseReference;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) throws NumberFormatException {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_register, container, false);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
-        mProgressDialog = new ProgressDialog(this);
-        mNameTextView = (TextView) findViewById(R.id.student_name);
-        mEmailTextView = (TextView) findViewById(R.id.student_email);
-        mIdTextView = (TextView) findViewById(R.id.student_id);
-        mPasswordTextView = (TextView) findViewById(R.id.student_password);
-        mRegisterButton = (Button) findViewById(R.id.student_register);
-        mRegisterCode = (EditText) findViewById(R.id.student_code);
+        mProgressDialog = new ProgressDialog(getActivity());
+        mNameTextView = (TextView) v.findViewById(R.id.student_name);
+        mEmailTextView = (TextView) v.findViewById(R.id.student_email);
+        mIdTextView = (TextView) v.findViewById(R.id.student_id);
+        mPasswordTextView = (TextView) v.findViewById(R.id.student_password);
+        mRegisterButton = (Button) v.findViewById(R.id.student_register);
+        mRegisterCode = (EditText) v.findViewById(R.id.student_code);
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerUser(mNameTextView.getText().toString().trim(),mEmailTextView.getText().toString().trim(),mPasswordTextView.getText().toString().trim(),Integer.parseInt(mIdTextView.getText().toString().trim()),mRegisterCode.getText().toString().trim());
+                registerUser(mNameTextView.getText().toString().trim(), mEmailTextView.getText().toString().trim(), mPasswordTextView.getText().toString().trim(), Integer.parseInt(mIdTextView.getText().toString().trim()), mRegisterCode.getText().toString().trim());
             }
         });
+
+        return v;
     }
 
-    private void registerUser(final String name,final String email,final String password,final int id,final String code){
+    private void registerUser(final String name, final String email, final String password, final int id, final String code){
 
         //checking all the user input
         if(TextUtils.isEmpty(email)|| !isEmailValid(email)){
-            Toast.makeText(getApplicationContext(),"Invalid Email",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Invalid Email",Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(password))
         {
-            Toast.makeText(getApplicationContext(),"Invalid Password",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Invalid Password",Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(mIdTextView.getText().toString().trim())|| id > 5000)
         {
-            Toast.makeText(getApplicationContext(),"Invalid ID",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Invalid ID",Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(name))
         {
-            Toast.makeText(getApplicationContext(),"Invalid Name",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Invalid Name",Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(code) || !code.equals("wubba lubba dub dub")){
-            Toast.makeText(getApplicationContext(),"Invalid Code",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Invalid Code",Toast.LENGTH_SHORT).show();
             return;
         }
 
         mProgressDialog.setMessage("Registering");
         mProgressDialog.show();
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
@@ -101,14 +108,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Student mStudent = new Student(id,name,email);
                     FirebaseUser mUser = mAuth.getCurrentUser();
                     mDatabaseReference.child(mUser.getUid()).setValue(mStudent);
-
-                    Toast.makeText(getApplicationContext(),"Successfully Registered!",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),SigninActivity.class));
-                    finish();
+                    Toast.makeText(getActivity(),"Successfully Registered!",Toast.LENGTH_SHORT).show();
+                    mTransaction.add(R.id.fragment_container,new SigninFragment());
                 }
                 else{
                     mProgressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(),"Error Occured",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Error Occured",Toast.LENGTH_SHORT).show();
                 }
             }
         });
