@@ -1,41 +1,38 @@
 package akl.com.cced19;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainApp extends AppCompatActivity {
+public class MainAppFragment extends Fragment {
 
     private Button logoutButton;
 
     FirebaseAuth mFirebaseAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_app);
-
         mFirebaseAuth = FirebaseAuth.getInstance();
-        logoutButton = (Button) findViewById(R.id.logout);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_main_app,container,false);
+        logoutButton = (Button) v.findViewById(R.id.logout);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mFirebaseAuth.signOut();
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                finish();
+                startActivity(new Intent(getActivity(),SigninActivity.class));
             }
         });
-
+        return v;
     }
-
-    @Override
-    public void onBackPressed(){
-        moveTaskToBack(true);
-    }
-
-
 }

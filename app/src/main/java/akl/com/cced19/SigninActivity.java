@@ -44,7 +44,7 @@ public class SigninActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         mProgressDialog.dismiss();
                         if(task.isSuccessful()){
-                            Intent intent = new Intent(getApplicationContext(),MainApp.class);
+                            Intent intent = new Intent(getApplicationContext(),MainAppContainer.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
