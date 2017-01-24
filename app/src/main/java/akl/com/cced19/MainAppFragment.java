@@ -1,7 +1,7 @@
 package akl.com.cced19;
 
 import android.app.Fragment;
-import android.content.Intent;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +29,8 @@ public class MainAppFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mFirebaseAuth.signOut();
-                startActivity(new Intent(getActivity(),SigninActivity.class));
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container,new TestFragment()).commit();
             }
         });
         return v;
