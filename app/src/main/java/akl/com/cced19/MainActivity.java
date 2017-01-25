@@ -1,7 +1,8 @@
 package akl.com.cced19;
 
 import android.app.Fragment;
-import android.content.Intent;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,27 @@ public class MainActivity extends Fragment {
     private Button mStudentSignin;
     private Button mStudentRegister;
     private Button mAdmin;
-
+    private FragmentManager mFragmentManager;
     private FirebaseAuth mFirebaseAuth;
+    Context mSigninButton;
+    Context mRegisterButton;
+    Context mAdminButton;
+    View.OnClickListener mOnClickListener;
+
+    public interface OnClickListener1{
+        public void onSigninPressed();
+        public void onRegisterPressed();
+        public void onAdminPressed();
+    }
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        this.mRegisterButton = context;
+        this.mAdminButton = context;
+        this.mSigninButton = context;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +55,7 @@ public class MainActivity extends Fragment {
         mStudentSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),SigninActivity.class));
+                    ((OnClickListener1) mSigninButton).onSigninPressed();
             }
         });
 
@@ -43,7 +63,7 @@ public class MainActivity extends Fragment {
         mStudentRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),RegisterActivity.class));
+                ((OnClickListener1) mRegisterButton).onRegisterPressed();
             }
         });
 
@@ -51,7 +71,7 @@ public class MainActivity extends Fragment {
         mAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),AdminActivity.class));
+                ((OnClickListener1) mAdminButton).onAdminPressed();
             }
         });
         return v;

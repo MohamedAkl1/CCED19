@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.concurrent.Executor;
+
 public class SigninActivity extends AppCompatActivity {
 
     private TextView mEmailTextView;
@@ -26,12 +28,12 @@ public class SigninActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mEmailTextView = (TextView) findViewById(R.id.signin_email);
-        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog = new ProgressDialog(getApplicationContext());
         mPasswordTextview = (TextView) findViewById(R.id.signin_password);
         mSigninButton = (Button) findViewById(R.id.signin_button);
         mSigninButton.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +41,7 @@ public class SigninActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mProgressDialog.setMessage("Signing in");
                 mProgressDialog.show();
-                mFirebaseAuth.signInWithEmailAndPassword(mEmailTextView.getText().toString().trim(),mPasswordTextview.getText().toString().trim()).addOnCompleteListener(SigninActivity.this, new OnCompleteListener<AuthResult>() {
+                mFirebaseAuth.signInWithEmailAndPassword(mEmailTextView.getText().toString().trim(),mPasswordTextview.getText().toString().trim()).addOnCompleteListener((Executor) SigninActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         mProgressDialog.dismiss();
@@ -47,7 +49,6 @@ public class SigninActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(),MainAppContainer.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
-                            finish();
                         }
                         else{
                             mProgressDialog.dismiss();
