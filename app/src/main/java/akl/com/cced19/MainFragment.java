@@ -2,9 +2,7 @@ package akl.com.cced19;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +19,7 @@ public class MainFragment extends Fragment {
     Context signin;
     Context register;
     Context admin;
+    Context userSignedin;
 
     private FirebaseAuth mFirebaseAuth;
 
@@ -35,33 +34,55 @@ public class MainFragment extends Fragment {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         if(mFirebaseAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainAppContainer.class));
+            ((openingFragments) userSignedin).userSignedin();
         }
 
-        mStudentSignin = (Button) findViewById(R.id.student_signin);
+        mStudentSignin = (Button) v.findViewById(R.id.student_signin);
         mStudentSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),SigninActivity.class));
+                ((openingFragments) signin).signinFragment();
             }
         });
 
-        mStudentRegister = (Button) findViewById(R.id.student_register);
+        mStudentRegister = (Button) v.findViewById(R.id.student_register);
         mStudentRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+                ((openingFragments) register).registerFragment();
             }
         });
 
-        mAdmin = (Button) findViewById(R.id.admin);
+        mAdmin = (Button) v.findViewById(R.id.admin);
         mAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),AdminActivity.class));
+                ((openingFragments) admin).adminFragment();
             }
         });
 
         return v;
+    }
+
+    public interface openingFragments{
+        void signinFragment();
+        void registerFragment();
+        void adminFragment();
+        void userSignedin();
+
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+
+        //check if its correct on running
+        if(context instanceof openingFragments){
+            this.signin = context;
+            this.register = context;
+            this.admin = context;
+            this.userSignedin = context;
+        }else
+            throw new RuntimeException("interface not implemented");
     }
 }
