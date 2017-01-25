@@ -1,29 +1,40 @@
 package akl.com.cced19;
 
+import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class MainFragment extends Fragment {
 
     private Button mStudentSignin;
     private Button mStudentRegister;
     private Button mAdmin;
 
+    Context signin;
+    Context register;
+    Context admin;
+
     private FirebaseAuth mFirebaseAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_main,container,false);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         if(mFirebaseAuth.getCurrentUser() != null){
-            finish();
             startActivity(new Intent(getApplicationContext(),MainAppContainer.class));
         }
 
@@ -51,11 +62,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
+        return v;
     }
-
-
-
 }
