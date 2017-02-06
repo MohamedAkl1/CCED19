@@ -5,6 +5,7 @@
     android:id="@+id/activity_signin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context="akl.com.cced19.SigninActivity">
 
     <EditText

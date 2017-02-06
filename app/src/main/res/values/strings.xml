@@ -11,4 +11,14 @@
     <string name="logout">Logout</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
+    <string name="choose_subjects">Choose Subjects</string>
+    <string name="subject">Subject</string>
+    <string name="section1">Section 1</string>
+    <string name="section2">Section 2</string>
+
+    <string-array name="groups_array">
+        <item>Group 1</item>
+        <item>Group 2</item>
+        <item>Group 3</item>
+    </string-array>
 </resources>

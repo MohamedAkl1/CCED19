@@ -11,20 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="akl.com.cced19.MainAppFragment">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        android:layout_centerVertical="true"
-        android:id="@+id/logout"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Signed in"
-        android:layout_above="@id/logout"
-        android:layout_centerVertical="true"
-        android:textSize="50dp"/>
 
 
 </RelativeLayout>

@@ -5,10 +5,10 @@ package akl.com.cced19;
  */
 
 public class Student {
-    int id;
-    String name;
-    String email;
-    Subject[] mSubjects;
+    private int id;
+    private String name;
+    private String email;
+    private Table mTable;
 
     public Student(int mId,String mName,String mEmail)
     {
@@ -17,12 +17,16 @@ public class Student {
         email=mEmail;
     }
 
-    public Subject[] getSubjects() {
-        return mSubjects;
+    public Student(){
+
     }
 
-    public void setSubjects(Subject[] subjects) {
-        mSubjects = subjects;
+    public Table getTable() {
+        return mTable;
+    }
+
+    public void setTable(Table table) {
+        mTable = table;
     }
 
     public String getName() {
