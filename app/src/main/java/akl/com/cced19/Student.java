@@ -10,11 +10,12 @@ public class Student {
     private String email;
     private Table mTable;
 
-    public Student(int mId,String mName,String mEmail)
+    public Student(int mId,String mName,String mEmail,Table table)
     {
-        name = mName;
-        id = mId;
-        email=mEmail;
+        this.name = mName;
+        this.id = mId;
+        this.email=mEmail;
+        this.mTable = table;
     }
 
     public Student(){

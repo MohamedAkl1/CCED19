@@ -5,12 +5,29 @@ package akl.com.cced19;
  */
 
 public class Subject {
-    private int group = 1;
+    private int group;
     private String name;
     private int lectureDuration;
     private int tutDuration;
+    private int section;
     private int labDuration;
+    private boolean registered;
 
+    public boolean isRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
+    }
+
+    public int getSection() {
+        return section;
+    }
+
+    public void setSection(int section) {
+        this.section = section;
+    }
 
     public int getGroup() {
         return group;
