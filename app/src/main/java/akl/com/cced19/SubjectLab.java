@@ -1,7 +1,6 @@
 package akl.com.cced19;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ public class SubjectLab {
     private static SubjectLab sSubjectLab;
 
     private List<Subject> mSubjects;
-    private ArrayAdapter<Subject> mSubjectArrayAdapter;
 
     public static SubjectLab get(Context context){
         if(sSubjectLab == null){

@@ -19,15 +19,20 @@ import com.google.firebase.database.ValueEventListener;
  * Created by Mohamed Akl on 1/24/2017.
  */
 
-public class MainAppContainer extends AppCompatActivity{
+public class MainAppContainer extends AppCompatActivity {
+
+    public static Student getmStudent() {
+        return mStudent;
+    }
 
     private static Student mStudent = new Student();
+
     FirebaseAuth mAuth;
     DatabaseReference mReference;
 
 
     @Override
-    protected void onCreate(Bundle onSavedInstanceState){
+    protected void onCreate(Bundle onSavedInstanceState) {
         super.onCreate(onSavedInstanceState);
         setContentView(R.layout.main_app_container);
 
@@ -35,28 +40,33 @@ public class MainAppContainer extends AppCompatActivity{
         mReference = FirebaseDatabase.getInstance().getReference();
 
         FirebaseUser mUser = mAuth.getCurrentUser();
-        mReference.child(mUser.getUid()).addValueEventListener(new ValueEventListener() {
+        String id = mUser.getUid();
+        mReference.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mStudent = dataSnapshot.getValue(Student.class);
+                if (dataSnapshot.exists()) {
+                    mStudent = dataSnapshot.getValue(Student.class);
+
+                    if (mStudent.getTable() == null) {
+                        startActivity(new Intent(getApplicationContext(), NewTableActivity.class));
+                        finish();
+                    } else {
+                        FragmentManager fm = getFragmentManager();
+                        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+                        if (fragment == null) {
+                            fragment = new MainAppFragment();
+                            fm.beginTransaction().add(R.id.fragment_container, fragment).commit();
+                        }
+                    }
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),"error reading from database",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "error reading from database", Toast.LENGTH_SHORT).show();
             }
         });
-
-        if(mStudent.getTable() == null){
-            startActivity(new Intent(getApplicationContext(),NewTableActivity.class));
-            finish();
-        }else{
-            FragmentManager fm = getFragmentManager();
-            Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-            if (fragment == null) {
-                fragment = new MainAppFragment();
-                fm.beginTransaction().add(R.id.fragment_container, fragment).commit();
-        }
     }
 }
-}
+
+

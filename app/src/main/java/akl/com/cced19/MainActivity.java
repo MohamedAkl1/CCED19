@@ -24,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         if(mFirebaseAuth.getCurrentUser() != null){
             finish();
-            startActivity(new Intent(getApplicationContext(),MainAppContainer.class));
+            Intent intent = new Intent(getApplicationContext(),MainAppContainer.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
         mStudentSignin = (Button) findViewById(R.id.student_signin);
@@ -50,12 +52,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),AdminActivity.class));
             }
         });
-
-
-
-
     }
-
-
-
 }

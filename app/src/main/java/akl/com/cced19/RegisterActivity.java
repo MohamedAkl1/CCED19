@@ -98,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
                     mProgressDialog.dismiss();
 
                     //Saving user Data on Firebase
-                    Student mStudent = new Student(id,name,email);
+                    Student mStudent = new Student(id,name,email,null);
                     FirebaseUser mUser = mAuth.getCurrentUser();
                     mDatabaseReference.child(mUser.getUid()).setValue(mStudent);
 

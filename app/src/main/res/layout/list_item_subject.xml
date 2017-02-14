@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/subject_group_spinner"
-        android:popupTheme="@style/Theme.AppCompat.Light"
+        android:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
         android:spinnerMode="dropdown"/>
 
     <RadioGroup
@@ -43,6 +43,8 @@
             android:id="@+id/section2rb"
             android:layout_weight="1"/>
     </RadioGroup>
+
+
 
 
 

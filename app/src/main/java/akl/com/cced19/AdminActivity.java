@@ -1,7 +1,8 @@
 package akl.com.cced19;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +26,8 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(adminCode.equals("msh wubba lubba dub dub")){
-                    //do something
+                    startActivity(new Intent(getApplicationContext(),AdminContainer.class));
+                    finish();
                 }else{
                     Toast.makeText(getApplicationContext(),"invalid code",Toast.LENGTH_SHORT).show();
                 }

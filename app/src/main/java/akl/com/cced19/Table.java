@@ -7,21 +7,18 @@ import java.util.List;
  */
 
 public class Table {
-    List<Subject> mSubjects;
+    List<Subject> subjects;
 
-    public Table(List<Subject> subjects) {
-        mSubjects = subjects;
-    }
 
     public Table(){
 
     }
 
     public List<Subject> getSubjects() {
-        return mSubjects;
+        return subjects;
     }
 
     public void setSubjects(List<Subject> subjects) {
-        mSubjects = subjects;
+        this.subjects = subjects;
     }
 }
